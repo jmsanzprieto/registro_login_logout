@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,14 +41,18 @@ INSTALLED_APPS = [
     # APLICACIONES DE TERCEROS
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+    "corsheaders",
 
     # APLICACIONES DEL PROYECTO
     'users',
+    'movies',
+
 ]   
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -79,12 +84,25 @@ WSGI_APPLICATION = 'auth.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# PARA TRABAJAR CON SQLITE3
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'demo_app',
+            'USER': 'root',
+            'PASSWORD': '##Sakura_2022',
+            'HOST': 'localhost',
+            'PORT': '3306',
+        }
     }
-}
+
 
 
 # Password validation
@@ -134,3 +152,18 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
      ],
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",
+
+]
+
+
+# SIMPLE_JWT = {
+    # 'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    # 'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+    # 'SLIDING_TOKEN_LIFETIME': timedelta(days=14),
+    # 'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=14),
+    # 'SLIDING_TOKEN_LIFETIME': timedelta(days=14),
+    # 'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=14),
+# }
